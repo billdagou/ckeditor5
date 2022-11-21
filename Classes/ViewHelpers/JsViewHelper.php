@@ -1,6 +1,7 @@
 <?php
 namespace Dagou\Ckeditor5\ViewHelpers;
 
+use Dagou\Ckeditor5\Interfaces\Editor;
 use Dagou\Ckeditor5\Interfaces\Source;
 use Dagou\Ckeditor5\Source\Local;
 use Dagou\Ckeditor5\Utility\ExtensionUtility;
@@ -45,6 +46,8 @@ class JsViewHelper extends ScriptViewHelper {
             }
 
             $build = in_array($this->arguments['build'], self::$builds) ? $this->arguments['build'] : 'classic';
+
+            $GLOBALS['TSFE']->fe_user->setKey('ses', Editor::NAME, $build);
 
             $this->tag->addAttribute('src', $source->getJs($build));
         }
