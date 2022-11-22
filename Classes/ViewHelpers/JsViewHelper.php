@@ -36,6 +36,8 @@ class JsViewHelper extends ScriptViewHelper {
      * @return string
      */
     public function render(): string {
+        $build = in_array($this->arguments['build'], self::$builds) ? $this->arguments['build'] : 'classic';
+
         if (!$this->arguments['src']) {
             if (!$this->arguments['disableSource'] !== TRUE
                 && is_subclass_of(($className = ExtensionUtility::getSource()), Source::class)
@@ -45,12 +47,10 @@ class JsViewHelper extends ScriptViewHelper {
                 $source = GeneralUtility::makeInstance(Local::class);
             }
 
-            $build = in_array($this->arguments['build'], self::$builds) ? $this->arguments['build'] : 'classic';
-
-            $GLOBALS['TSFE']->fe_user->setKey('ses', Editor::NAME, $build);
-
             $this->tag->addAttribute('src', $source->getJs($build));
         }
+
+        $GLOBALS['TSFE']->fe_user->setKey('ses', Editor::NAME, $build);
 
         return parent::render();
     }
