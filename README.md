@@ -9,6 +9,10 @@ You can load the library in your Fluid template.
 
 	<ckeditor:js />
 
+And specify the build, `classic` (default), `inline`, `balloon`, `balloon-block`, or `document`.
+
+    <ckeditor:js build="..." />
+
 You can also load your own library.
 
     <ckeditor:js src="..." />
