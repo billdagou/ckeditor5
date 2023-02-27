@@ -14,6 +14,12 @@ class TextareaViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextareaViewH
         $this->assetCollector = $assetCollector;
     }
 
+    public function initializeArguments() {
+        parent::initializeArguments();
+
+        $this->registerArgument('var', 'string', 'Variable name.');
+    }
+
     public function render(): string {
         $name = $this->getName();
 
@@ -21,6 +27,7 @@ class TextareaViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextareaViewH
             'ckeditor5.'.$name,
             Editor::EDITOR[$GLOBALS['TSFE']->fe_user->getKey('ses', Editor::NAME)]
                 .'.create(document.querySelector(\'textarea[name="'.$name.'"]\'))'
+                .($this->arguments['var'] ? '.then(editor => {'.$this->arguments['var'].' = editor;})' : '')
                 .'.catch(error => {alert(error);})'
                 .';'
         );

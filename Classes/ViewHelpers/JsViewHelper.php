@@ -39,7 +39,7 @@ class JsViewHelper extends ScriptViewHelper {
         $build = in_array($this->arguments['build'], self::$builds) ? $this->arguments['build'] : 'classic';
 
         if (!$this->arguments['src']) {
-            if (!$this->arguments['disableSource'] !== TRUE
+            if ($this->arguments['disableSource'] !== TRUE
                 && is_subclass_of(($className = ExtensionUtility::getSource()), Source::class)
             ) {
                 $source = GeneralUtility::makeInstance($className);
