@@ -2,11 +2,10 @@
 namespace Dagou\Ckeditor5\Source;
 
 use Dagou\Ckeditor5\Interfaces\Source;
-use TYPO3\CMS\Core\SingletonInterface;
 
-abstract class AbstractSource implements Source, SingletonInterface {
+abstract class AbstractSource implements Source {
     protected const URL = '';
-    protected const VERSION = '35.3.0';
+    protected const VERSION = '41.4.2';
 
     /**
      * @param string $build
@@ -23,17 +22,9 @@ abstract class AbstractSource implements Source, SingletonInterface {
      * @return string
      */
     protected function getJsBuild(string $buildName): string {
-        switch ($buildName) {
-            case 'balloon':
-                return 'balloon/ckeditor.js';
-            case 'balloon-block':
-                return 'balloon-block/ckeditor.js';
-            case 'classic':
-                return 'classic/ckeditor.js';
-            case 'document':
-                return 'decoupled-document/ckeditor.js';
-            case 'inline':
-                return 'inline/ckeditor.js';
-        }
+        return match($buildName) {
+            'balloon', 'balloon-block', 'classic', 'inline' => $buildName.'/ckeditor.js',
+            'document' => 'decoupled-document/ckeditor.js',
+        };
     }
 }
